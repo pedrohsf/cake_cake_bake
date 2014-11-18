@@ -30,7 +30,11 @@ and open the template in the editor.
 .lb_input_required{
     color:red; 
     margin-right: -10px; 
-    font-size: 10px; 
-    font-weight: bolder;
-    
+}
+
+.table_mentoris th {
+    width: 30% !important; 
+    color: black;
+    font-style: normal;
+    font-family: cursive;
 }

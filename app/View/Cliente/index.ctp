@@ -12,10 +12,9 @@
                 echo $this->element('fail_validation',$errors); 
             endif;?>
             
-            <p>* Campos Obrigatórios</p> 
+            <p class="lb_input_required">* Campos Obrigatórios</p> 
                 <?= $this->Form->input('Cliente.id_cliente',array('type'=>'hidden')); ?>
                 
-                <label class="lb_input_required">*</label>
                 <?= $this->Form->input('Cliente.nome',array('type'=>'text','required','maxlength'=>'120','placeholder'=>'Nome *','label'=>false,'div'=>false,'errorMessage'=>false)); ?>
      
                 <?= $this->Form->input('Cliente.cpf_cnpj',array('type'=>'text','required','maxlength'=>'20','placeholder'=>'CNPJ/CPF *','label'=>false,'div'=>false,'errorMessage'=>false)); ?>
@@ -40,10 +39,23 @@
                 <?= $this->Form->input('Endereco.complemento',array('type'=>'text','placeholder'=>'Complemento','label'=>false,'div'=>false,'errorMessage'=>false)); ?>
                 
                 
-                <button class="btn btn-sm btn-primary" type="submit">
-                    <i class="icon-ok bigger-110"></i>
-                    Salvar
-                </button> 
+                
+                <?php if(isset($editando_cliente)):?>
+                    <button class="btn btn-sm btn-primary" type="submit">
+                        <i class="icon-ok bigger-110"></i>
+                        Editar
+                    </button> 
+                    <a class="btn btn-sm btn-danger btn-primary" href="<?=$HOST.'cliente'?>">
+                        <i class="icon-remove bigger-110"></i>
+                        Cancelar
+                    </a>
+                <?php else: ?>
+                    <button class="btn btn-sm btn-primary" type="submit">
+                        <i class="icon-ok bigger-110"></i>
+                        Salvar
+                    </button> 
+                <?php endif; ?>
+                
         </div>
     </form>
         
@@ -76,8 +88,8 @@
                     <tbody role="alert" aria-live="polite" aria-relevant="all">
                     <?php foreach($clientes as $cliente) : ?>    
                         <tr class="odd">
-                            <td class="center  sorting_1">
-                                    <span class="label label-sm label-success">Ativo</span>
+                            <td class="center  sorting_1"> 
+                                    <?=$this->element('label_status',array('ativo'=>$cliente['Cliente']['ativo'],'link_change_status'=>$HOST.'cliente/change_status/'.$cliente['Cliente']['id_cliente']));?>
                             </td>
 
                             <td class=" ">
@@ -90,10 +102,10 @@
 
                             <td class=" ">
                                     <div class="">
-                                            <a class="blue" href="#">
+                                            <a  href="#modal-table-<?=$cliente['Cliente']['id_cliente']?>" role="button" data-toggle="modal">
                                                     <i class="icon-zoom-in bigger-130"></i>
                                             </a>
-
+                                            
                                             <a class="green" href="<?=$HOST.'cliente/edit_cliente/'.$cliente['Cliente']['id_cliente']?>">
                                                     <i class="icon-pencil bigger-130"></i>
                                             </a>
@@ -107,6 +119,7 @@
                                 
                             </td>
                         </tr>
+                        
                     <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -114,3 +127,98 @@
     </div>
  
 
+
+<?php foreach($clientes as $cliente) : ?>    
+    <div id="modal-table-<?=$cliente['Cliente']['id_cliente']?>" class="modal fade in" tabindex="-1" aria-hidden="false" >
+            <div class="modal-dialog">
+                    <div class="modal-content">
+                            <div class="modal-header no-padding">
+                                    <div class="table-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                    <span class="white">×</span>
+                                            </button>
+                                        <p> 
+                                            <?=$this->element('label_status',
+                                                                    array('ativo'=> $cliente['Cliente']['ativo'],
+                                                                                    'link_change_status'=>$HOST.'cliente/change_status/'.$cliente['Cliente']['id_cliente']
+                                                                          )
+                                                             );?>
+                                            
+                                            <?=$cliente['Cliente']['nome']?> 
+                                        </p>
+                                    </div>
+                            </div>
+
+                            <div class="modal-body no-padding">
+                                    <table class="table table_mentoris table-striped table-bordered table-hover no-margin-bottom no-border-top">
+                                            <thead>
+                                                    <tr>
+                                                        <th>Nome :
+                                                            <td><?=$cliente['Cliente']['nome']?></td>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>CPF/CNPJ :
+                                                            <td><?=$cliente['Cliente']['cpf_cnpj']?></td>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Telefone :
+                                                            <td><?=$cliente['Cliente']['telefone']?></td>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th >Inscrição Estadual :
+                                                            <td><?=$cliente['Cliente']['inscricao_estadual']?></td>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Email :
+                                                            <td><?=$cliente['Cliente']['email']?></td>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>CEP :
+                                                            <td><?=$cliente['Endereco']['cep']?></td>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Cidade :
+                                                            <td><?=$cliente['Endereco']['Bairro']['Cidade']['nome']?></td>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Bairro :
+                                                            <td><?=$cliente['Endereco']['Bairro']['nome']?></td>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Rua :
+                                                            <td><?=$cliente['Endereco']['rua']?></td>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Numero :
+                                                            <td><?=$cliente['Endereco']['numero']?></td>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Complemento :
+                                                            <td><?=$cliente['Endereco']['complemento']?></td>
+                                                        </th>
+                                                    </tr>
+                                            </thead>
+
+                                    </table>
+                            </div>
+
+                            <div class="modal-footer no-margin-top">
+                                    <button class="btn btn-sm btn-danger pull-left" data-dismiss="modal">
+                                            <i class="icon-backward"></i>
+                                            Voltar
+                                    </button>
+                            </div>
+                    </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+    </div>
+<?php endforeach; ?>

@@ -10,9 +10,35 @@ class ClienteController extends AppController{
     
     
     public function index(){
-        $this->Cliente->recursive = 1;
+        $this->Cliente->recursive = 3;
         $this->set('clientes',$this->Cliente->find('all'));
-         
+        
+    }
+    
+    public function change_status($id = null){
+        if($id != null){
+            $this->Cliente->id = $id;
+            if($this->Cliente->exists()){
+                $cliente = $this->Cliente->find('first',array('conditions'=>array('Cliente.id_cliente'=>$id)));
+                $cliente['Cliente']['id_cliente'] = $id;
+                $nome = $cliente['Cliente']['nome'];
+                $messagem = 'ativado';  
+                if($this->Cliente->field('ativo')){
+                    $cliente['Cliente']['ativo'] = 0;
+                    $messagem = 'desativado';
+                }
+                else{
+                    $cliente['Cliente']['ativo'] = 1;
+                }
+                if($this->Cliente->save($cliente)){
+                    $this->Session->setFlash("O cliente $nome foi $messagem.", 'flash_sucess_custom', array(), 'clientWarning');
+                    $this->redirect(array('action'=>'index'));
+                }
+            }
+        }
+        $this->Session->setFlash("Este Cliente não pode ser encontrado, tente novamente.", 'flash_fail_custom', array(), 'clientWarning');
+        $this->redirect(array('action'=>'index'));
+        
     }
     
     public function delete_cliente($id = null){
@@ -64,6 +90,7 @@ class ClienteController extends AppController{
                 $this->request->data = $this->Cliente->find('first',array('conditions'=>array('Cliente.id_cliente'=>$id)));
                 $this->request->data['Cidade'] = $this->request->data['Endereco']['Bairro']['Cidade']; // organiza array para mostrar na tela
                 $this->request->data['Bairro'] = $this->request->data['Endereco']['Bairro']; // organiza array para mostrar na tela
+                $this->set('editando_cliente',true);
                 $this->index(); // carrega tabela de clientes
                 $this->render('/Cliente/index/'); // renderizar index
             }else{
