@@ -6,13 +6,23 @@
     <?= $this->Form->create(null,array('url'=>array('controller'=>'cliente','action'=>'novo_cliente'))); ?>
         <input id="categoriaEscolhida" value="" hidden="" />
             
-        <div class="col-xs-12 row" style="background-color: #F5F5F5">
+        <div class="col-xs-12 row container_cliente_form" >
             
             <?php if(isset($errors)): 
                 echo $this->element('fail_validation',$errors); 
             endif;?>
             
-            <p class="lb_input_required">* Campos Obrigatórios</p> 
+            <p class="lb_input_required">* Campos Obrigatórios </p> 
+            
+            <p class="text-info text-center color_mentoris">Empresa do Cliente</p>
+            <?= $this->Form->input('Cliente.comercial_nome',array('type'=>'text','maxlength'=>'120','placeholder'=>'Nome Comercial','label'=>false,'div'=>false,'errorMessage'=>false)); ?>
+                
+            <?= $this->Form->input('Cliente.comercial_telefone',array('type'=>'text','maxlength'=>'20','placeholder'=>'Telefone Comercial','label'=>false,'div'=>false,'errorMessage'=>false)); ?>
+            
+            <?= $this->Form->input('Cliente.descricao',array('type'=>'textarea',"class"=>"descricao_cliente",'placeholder'=>'Descrição','label'=>false,'div'=>false,'errorMessage'=>false)); ?>
+                
+            
+            <p class="text-info text-center color_mentoris">Informações Pessoais</p>
                 <?= $this->Form->input('Cliente.id_cliente',array('type'=>'hidden')); ?>
                 
                 <?= $this->Form->input('Cliente.nome',array('type'=>'text','required','maxlength'=>'120','placeholder'=>'Nome *','label'=>false,'div'=>false,'errorMessage'=>false)); ?>
@@ -38,7 +48,7 @@
                 
                 <?= $this->Form->input('Endereco.complemento',array('type'=>'text','placeholder'=>'Complemento','label'=>false,'div'=>false,'errorMessage'=>false)); ?>
                 
-                
+               
                 
                 <?php if(isset($editando_cliente)):?>
                     <button class="btn btn-sm btn-primary" type="submit">
@@ -80,6 +90,7 @@
                                                 <th class="hidden-480 sorting" >Telefone</th>
                                                 <th class="sorting" >Inscrição Estadual</th>
                                                 <th class="hidden-480 sorting" >CEP</th>
+                                                <th class="hidden-480 sorting" >Descrição</th>
                                                 <th class="sorting_disabled" >Ações</th>
                                     </tr>
                             </thead>
@@ -99,6 +110,7 @@
                             <td> <?=$cliente['Cliente']['telefone']?></td>
                             <td> <?=$cliente['Cliente']['inscricao_estadual']?></td>
                             <td> <?=$cliente['Endereco']['cep']?></td>
+                            <td> <?=$cliente['Cliente']['descricao']?></td>
 
                             <td class=" ">
                                     <div class="">
@@ -151,6 +163,22 @@
 
                             <div class="modal-body no-padding">
                                     <table class="table table_mentoris table-striped table-bordered table-hover no-margin-bottom no-border-top">
+                                        <p class="text-center text-table">Empresa do Cliente</p>
+                                        <thead>
+                                            <tr>
+                                                <th>Nome :
+                                                    <td><?=$cliente['Cliente']['comercial_nome']?></td>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th>Telefone :
+                                                    <td><?=$cliente['Cliente']['comercial_telefone']?></td>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                    <table class="table table_mentoris table-striped table-bordered table-hover no-margin-bottom no-border-top">
+                                            <p class="text-center text-table">Informações Pessoais</p>
                                             <thead>
                                                     <tr>
                                                         <th>Nome :
@@ -207,9 +235,15 @@
                                                             <td><?=$cliente['Endereco']['complemento']?></td>
                                                         </th>
                                                     </tr>
+                                                    <tr>
+                                                        <th>Descrição :
+                                                            <td><?=$cliente['Cliente']['descricao']?></td>
+                                                        </th>
+                                                    </tr>
                                             </thead>
-
+                                           
                                     </table>
+                                    
                             </div>
 
                             <div class="modal-footer no-margin-top">
@@ -222,3 +256,21 @@
             </div><!-- /.modal-dialog -->
     </div>
 <?php endforeach; ?>
+
+<?php /*
+<script type="text/javascript">
+    <i class="icon-minus-sign icon-2x" id="min_client_window"></i>
+    window.onload = function(){
+        $( "#min_client_window" ).on( "click", function() {
+            if(localStorage.getItem('menu_cliente') === 'abrir'){
+                $(".container_cliente_form").css("height","30px").css("overflow","hidden");
+                localStorage.setItem('menu_cliente','fechar');
+            }else{
+                $(".container_cliente_form").css("height","auto");
+                localStorage.setItem('menu_cliente','abrir');
+            }
+        });
+    };
+</script>
+ * 
+ */?>

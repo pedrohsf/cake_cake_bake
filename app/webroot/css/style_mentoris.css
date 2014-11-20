@@ -11,8 +11,12 @@ and open the template in the editor.
 @media screen and (max-width: 1024px) {
    .border_top_if_mobile { 
        margin-top: 55px;
-       }
    }
+   
+    .container_cliente_form input{
+        width:45% !important;
+    }
+}
 .border_top_if_mobile { 
     width:100%;
     margin-bottom: 20px;
@@ -22,7 +26,15 @@ and open the template in the editor.
     width:100%;
     margin-bottom: 20px;
 }
-
+.color_mentoris{
+    color:#AB4771;
+}
+#min_client_window{
+    float:right;
+    color:#555;
+    margin:4px;
+    cursor: pointer;
+}
 
 .border_top_if_mobile div input{ 
     margin: 1%;
@@ -37,4 +49,33 @@ and open the template in the editor.
     color: black;
     font-style: normal;
     font-family: cursive;
+}
+.descricao_cliente{
+    width: 57%;
+    margin:1%;
+}
+
+.container_cliente_form{
+    background-color: #F5F5F5;
+}
+
+.container_cliente_form input{
+    width:17.5%;
+}
+
+.empresa_title_cli{
+    width:100% !important;
+    color:#AB4771 !important;
+}
+
+.text-table{
+    margin:0;
+    font-family: sans-serif;
+    background: #f2f2f2;
+    background-image: -webkit-gradient(linear,left 0,left 100%,from(#f8f8f8),to(#ececec));
+    background-image: -webkit-linear-gradient(top,#f8f8f8,0%,#ececec,100%);
+    background-image: -moz-linear-gradient(top,#f8f8f8 0,#ececec 100%);
+    background-image: linear-gradient(to bottom,#f8f8f8 0,#ececec 100%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff8f8f8',endColorstr='#ffececec',GradientType=0);
 }
